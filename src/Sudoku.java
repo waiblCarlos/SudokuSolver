@@ -24,13 +24,13 @@ public class Sudoku
 				inColumn = isInSameColumn (puzzle, currentPosition, i);
 				inZone = isInSameZone (puzzle, currentPosition, i);
 				if (!inRow && !inColumn && !inZone) {
-					puzzle[currentPosition[0]][currentPosition[1]] = i;
+					puzzle[currentPosition[1]][currentPosition[0]] = i;
 					currentPosition [0]++;
 					if (currentPosition [0] == 9) {
 						currentPosition [0] = 0;
 						currentPosition [1]++;
 						if (currentPosition [1] == 9) {
-							printSolution ();
+							printSolution(puzzle);
 						}
 					}
 					solvePuzzle (puzzle, currentPosition);
@@ -45,7 +45,7 @@ public class Sudoku
 	// Checks if the current grid is filled
 	public static boolean isGridEmpty (int[][] puzzle, int[] position)
 	{
-		if (puzzle[position[0]][position[1]] == 0) {
+		if (puzzle[position[1]][position[0]] == 0) {
 			return true;
 		}
 		return false;
@@ -55,7 +55,7 @@ public class Sudoku
 	public static boolean isInSameRow (int[][] puzzle, int[] position, int guess)
 	{
 		for (int i=0; i<9; i++) {
-			if (puzzle[i][position[1]] == guess) {
+			if (puzzle[position[1]][i] == guess) {
 				return true;
 			}
 		}
@@ -66,7 +66,7 @@ public class Sudoku
 	public static boolean isInSameColumn (int[][] puzzle, int[] position, int guess)
 	{
 		for (int i=0; i<9; i++) {
-			if (puzzle[position[0]][i] == guess) {
+			if (puzzle[i][position[0]] == guess) {
 				return true;
 			}
 		}
@@ -80,7 +80,7 @@ public class Sudoku
 		int yZone = (int) Math.floor(position[1] / 3);
 		for (int i =0; i<3; i++) {
 			for (int j =0; j<3; j++) {
-				if (puzzle[3 * xZone + i][3 * yZone + j] == guess) {
+				if (puzzle[3 * yZone + i][3 * xZone + j] == guess) {
 					return true;
 				}
 			}
@@ -88,9 +88,15 @@ public class Sudoku
 		return false;
 	}
 
-	public static void printSolution ()
+	public static void printSolution(int[][] puzzle)
 	{
+		printRowLine();
+	}
 
+	public static void printRowLine() {
+		for (int i = 0; i < 50; i++) {
+			System.out.print("_");
+		}
 	}
 
 }
