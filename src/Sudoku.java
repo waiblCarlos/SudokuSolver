@@ -7,12 +7,12 @@ public class Sudoku
 	{
 		// Default empty puzzle
 		int[] position = {0,0};
-		int[][] puzzle = new int[9] [9];
+		int[][] puzzle = new int[9][9];
 		solvePuzzle (puzzle, position);
 	}
 
 	// Will use the backtracking algorithm to fill in the puzzle
-	public static void solvePuzzle (int[][] puzzle, int[] currentPosition)
+	public static void solvePuzzle(int[][] puzzle, int[] currentPosition)
 	{
 		// First checks if the grid is empty
 		boolean inRow, inColumn, inZone;
@@ -33,13 +33,19 @@ public class Sudoku
 							printSolution(puzzle);
 						}
 					}
-					solvePuzzle (puzzle, currentPosition);
-				}
-				if (i == 9) {
-					return;
+					solvePuzzle(puzzle, currentPosition);
 				}
 			}
-		} 
+			puzzle[currentPosition[1]][currentPosition[0]] = 0;
+			currentPosition[0]--;
+			if (currentPosition[0] == -1) {
+				currentPosition[0] = 8;
+				currentPosition[1]--;
+			}
+			return;
+		} else {
+			currentPosition[0]++;
+		}
 	}
 
 	// Checks if the current grid is filled
