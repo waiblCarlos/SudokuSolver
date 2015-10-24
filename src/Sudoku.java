@@ -12,12 +12,12 @@ public class Sudoku
 	}
 
 	// Will use the backtracking algorithm to fill in the puzzle
-	public static void solvePuzzle(int[][] puzzle, int[] currentPosition)
+	public static boolean solvePuzzle(int[][] puzzle, int[] currentPosition)
 	{
 		// First checks if the grid is empty
-		boolean inRow, inColumn, inZone;
-		if (isGridEmpty (puzzle, currentPosition)) {
-			for (int i = 1; i<10; i++) {
+		boolean inRow, inColumn, inZone, x;
+		if (isGridEmpty(puzzle, currentPosition)) {
+			for (int i = 1; i < 10; i++) {
 				// Check no numbers exists in same rows & same columns same as (i) & 3x3 zone (i) is currently in.
 				// If not then fill in that grid
 				inRow = isInSameRow (puzzle, currentPosition, i);
@@ -26,14 +26,18 @@ public class Sudoku
 				if (!inRow && !inColumn && !inZone) {
 					puzzle[currentPosition[1]][currentPosition[0]] = i;
 					currentPosition [0]++;
-					if (currentPosition [0] == 9) {
+					if (currentPosition[0] == 9) {
 						currentPosition [0] = 0;
 						currentPosition [1]++;
-						if (currentPosition [1] == 9) {
+						if (currentPosition[1] == 9) {
 							printSolution(puzzle);
+							return false;
 						}
 					}
-					solvePuzzle(puzzle, currentPosition);
+					x = solvePuzzle(puzzle, currentPosition);
+					if (!x) {
+						return false;
+					}
 				}
 			}
 			puzzle[currentPosition[1]][currentPosition[0]] = 0;
@@ -42,10 +46,10 @@ public class Sudoku
 				currentPosition[0] = 8;
 				currentPosition[1]--;
 			}
-			return;
 		} else {
 			currentPosition[0]++;
 		}
+		return true;
 	}
 
 	// Checks if the current grid is filled
@@ -60,7 +64,7 @@ public class Sudoku
 	// Checks if the guess exists in the current row
 	public static boolean isInSameRow (int[][] puzzle, int[] position, int guess)
 	{
-		for (int i=0; i<9; i++) {
+		for (int i = 0; i < 9; i++) {
 			if (puzzle[position[1]][i] == guess) {
 				return true;
 			}
@@ -71,7 +75,7 @@ public class Sudoku
 	// Checks if the guess exists in the current column
 	public static boolean isInSameColumn (int[][] puzzle, int[] position, int guess)
 	{
-		for (int i=0; i<9; i++) {
+		for (int i = 0; i < 9; i++) {
 			if (puzzle[i][position[0]] == guess) {
 				return true;
 			}
@@ -97,12 +101,24 @@ public class Sudoku
 	public static void printSolution(int[][] puzzle)
 	{
 		printRowLine();
+		for (int i = 0; i < 9; i++) {
+			printRowNumbers(puzzle, i);
+			printRowLine();
+		}
 	}
 
 	public static void printRowLine() {
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 37; i++) {
 			System.out.print("_");
 		}
+	}
+
+	public static void printRowNumbers(int[][] puzzle, int row) {
+		System.out.print("\n| ");
+		for (int i = 0; i < 9; i++) {
+			System.out.print(puzzle[row][i] + " | ");
+		}
+		System.out.print("\n");
 	}
 
 }
