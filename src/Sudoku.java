@@ -6,6 +6,7 @@ public class Sudoku
 	public static void main (String[] args)
 	{
 		// Default empty puzzle
+		createBoard();
 		int[] position = {0,0};
 		int[][] puzzle = new int[9][9];
 		solvePuzzle (puzzle, position);
@@ -103,22 +104,36 @@ public class Sudoku
 		printRowLine();
 		for (int i = 0; i < 9; i++) {
 			printRowNumbers(puzzle, i);
-			printRowLine();
+			if (i % 3 == 2) {
+				printRowLine();
+			}
 		}
+		System.out.println();
 	}
 
 	public static void printRowLine() {
-		for (int i = 0; i < 37; i++) {
-			System.out.print("_");
+		for (int i = 0; i < 39; i++) {
+			if (i % 13 == 0 && i != 0) {
+				System.out.print("\t\t ");
+			}
+			System.out.print("-");
 		}
 	}
 
 	public static void printRowNumbers(int[][] puzzle, int row) {
 		System.out.print("\n| ");
 		for (int i = 0; i < 9; i++) {
-			System.out.print(puzzle[row][i] + " | ");
+			if (i % 3 == 2 && i != 8) {
+				System.out.print(puzzle[row][i] + " | \t\t | ");
+			} else {
+				System.out.print(puzzle[row][i] + " | ");
+			}
 		}
 		System.out.print("\n");
+	}
+
+	public static void createBoard() {
+
 	}
 
 }
